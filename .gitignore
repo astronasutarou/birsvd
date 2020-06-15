@@ -1,1 +1,6 @@
+MANIFEST
+build/
+dist/
+*.egg-info/
+
 *.pyc
