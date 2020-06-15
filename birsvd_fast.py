@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8  -*-
-from __future__ import print_function, absolute_import, division
 from sklearn.utils.extmath import randomized_svd
 from birsvd.svd_settings import BIRSVDParameter
 from birsvd.svd_functions import __get_regularization_matrix
@@ -36,7 +35,7 @@ def __Ap_x(x, U, W, D):
 def least_square_low_rank(
     U, W, D, b, n_iter,
     A=__A_x, Ap=__Ap_x, x_init=None):
-  u"""
+  '''
   SYNOPSIS:
 
   solves the least squares problem  min || Ax-b || that arises in the
@@ -56,7 +55,7 @@ def least_square_low_rank(
   A       function handle for post multipication Ax
   A_prime   function handle for post multipication A*x
   x0  first initial guess (optional argument, default set to 0)
-  """
+  '''
 
   if x_init is not None:
     b = b - A(x_init,U,W,D)
@@ -102,8 +101,8 @@ def least_square_low_rank(
 
 
 def birsvd_fast(data, weight, n_rank, param=DEFAULT_PARAM):
-  u"""
-  """
+  '''
+  '''
   if data.shape != weight.shape:
     raise ValueError(
       'the shape of "data" is not matched to that of "weight".')

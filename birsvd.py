@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8  -*-
-from __future__ import print_function, absolute_import, division
 from sklearn.utils.extmath import randomized_svd
 from birsvd.svd_settings import BIRSVDParameter
 from birsvd.svd_functions import __get_regularization_matrix

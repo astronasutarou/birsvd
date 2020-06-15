@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8  -*-
-from __future__ import print_function, absolute_import, division
 from sklearn.utils.extmath import randomized_svd
 import numpy as np
 
