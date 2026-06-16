@@ -1,35 +1,41 @@
 [build-system]
-requires = ["setuptools>=61", "wheel"]
-build-backend = "setuptools.backends.legacy:build"
+requires = [
+  "setuptools>=64",
+  "numpy>=2.2",
+]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "birsvd"
 version = "0.1"
-description = "Bayesian Iterative Randomized SVD for weighted low-rank matrix approximation"
+description = "Bi-Iterative Regularized Singular Value Decomposition for weighted low-rank matrix approximation"
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { text = "MIT" }
 authors = [
-    { name = "Ryou Ohsawa", email = "ohsawa@ioa.s.u-tokyo.ac.jp" }
+  { name = "Ryou Ohsawa", email = "ryou.ohsawa@nao.ac.jp" }
 ]
 maintainers = [
-    { name = "Ryou Ohsawa", email = "ohsawa@ioa.s.u-tokyo.ac.jp" }
+  { name = "Ryou Ohsawa", email = "ryou.ohsawa@nao.ac.jp" }
 ]
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 dependencies = [
-    "numpy",
-    "scipy",
-    "scikit-learn",
+  "numpy>=2.2",
+  "scipy>=1.16",
+  "scikit-learn>=1.9",
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Environment :: Console",
-    "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: POSIX :: Linux",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Topic :: Scientific/Engineering :: Astronomy",
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Astronomy",
 ]
 
 [project.urls]
-Homepage = "https://bitbucket.org/ryou_ohsawa/birsvd/src/master/"
+Homepage = "https://github.com/astronasutarou/birsvd"

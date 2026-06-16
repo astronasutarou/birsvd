@@ -1,28 +1,19 @@
 # BIRSVD
 
-A Python implementation of the **Bayesian Iterative Randomized SVD (BIRSVD)** algorithm for weighted low-rank matrix approximation, based on the work of Das & Neumaier (2011).
-
-## Background
-
-``` bibtex
-@inproceedings{Das2011FastRL,
-  title={Fast Regularized Low Rank Approximation of Weighted Data Sets},
-  author={Saptarshi Das and Arnold Neumaier},
-  year={2011},
-  url={https://api.semanticscholar.org/CorpusID:9775806}
-}
-```
+A Python implementation of the **Bi-Iterative Regularized Singular Value Decomposition (BIRSVD)** algorithm for weighted low-rank matrix approximation, based on the work of Das & Neumaier (2011).
 
 ## Installation
 
+Install via the GitHub repository.
+
 ```bash
-pip install birsvd
+pip install git+https://github.com/astronasutarou/birsvd.git
 ```
 
 Or install from source:
 
 ```bash
-git clone https://bitbucket.org/ryou_ohsawa/birsvd/src/master/
+git clone https://github.com/astronasutarou/birsvd
 cd birsvd
 pip install .
 ```
@@ -116,3 +107,13 @@ u, s, v = svd_imputation_with_mask(data, mask, n_rank=r, n_iter=20)
 imputed = u.dot(np.diag(s)).dot(v)
 ```
 
+## Background
+
+``` bibtex
+@inproceedings{Das_BIRSVD_2011,
+  title={Fast Regularized Low Rank Approximation of Weighted Data Sets},
+  author={Saptarshi Das and Arnold Neumaier},
+  year={2011},
+  url={https://api.semanticscholar.org/CorpusID:9775806}
+}
+```
