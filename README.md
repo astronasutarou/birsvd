@@ -111,7 +111,7 @@ param = BIRSVDParameter(n_iter=50, r_degree_L=1e-3, r_degree_R=1e-3)
 approx = birsvd(data, weight, n_rank=r, param=param)
 
 # Missing-value imputation
-mask = (np.random.rand(m, n) > 0.2).astype(float)   # 20 % missing
+mask = (np.random.rand(m, n) > 0.2).astype(float)   # 20% missing
 u, s, v = svd_imputation_with_mask(data, mask, n_rank=r, n_iter=20)
 imputed = u.dot(np.diag(s)).dot(v)
 ```
