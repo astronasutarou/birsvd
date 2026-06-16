@@ -10,7 +10,7 @@ name = "birsvd"
 version = "0.1"
 description = "Bi-Iterative Regularized Singular Value Decomposition for weighted low-rank matrix approximation"
 readme = { file = "README.md", content-type = "text/markdown" }
-license = { text = "MIT" }
+license = "MIT"
 authors = [
   { name = "Ryou Ohsawa", email = "ryou.ohsawa@nao.ac.jp" }
 ]
@@ -38,3 +38,7 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/astronasutarou/birsvd"
+
+[tool.setuptools]
+packages = []
+py-modules = []
