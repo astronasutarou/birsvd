@@ -36,9 +36,6 @@ class BIRSVDParameter:
         r_degree_R (float):
             The degree of regularization for the right singular vectors.
             default: 0.0001
-        lsqr_niter (int):
-            The number of iterations for the LSQR algorithm.
-            default: 25
     '''
     n_iter: int = 30
     init_method: str = 'randOrthoNormal'
@@ -46,7 +43,6 @@ class BIRSVDParameter:
     r_degree_L: float = 0.0001
     r_type_R: str = '2ndOrderDiff_acc8'
     r_degree_R: float = 0.0001
-    lsqr_niter: int = 25
 
     def __post_init__(self):
         valid_init_methods = [

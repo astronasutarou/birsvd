@@ -76,7 +76,6 @@ Dataclass for configuring the `birsvd` and `birsvd_fast` algorithms.
 | `r_type_R` | `'2ndOrderDiff_acc8'` | Regularization type for the right factor |
 | `r_degree_L` | `0.0001` | Regularization strength for the left factor |
 | `r_degree_R` | `0.0001` | Regularization strength for the right factor |
-| `lsqr_niter` | `25` | LSQR inner iterations (used by `birsvd_fast` only) |
 
 Available regularization types: `'TiKh'` (Tikhonov), `'2ndOrderDiff_acc2'`, `'2ndOrderDiff_acc4'`, `'2ndOrderDiff_acc6'`, `'2ndOrderDiff_acc8'`.
 

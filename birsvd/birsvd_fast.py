@@ -160,8 +160,9 @@ def birsvd_fast(data, weight, n_rank, param=DEFAULT_PARAM):
             The target rank of the approximation. The value should be between
             1 and ``min(data.shape)``.
         param (BIRSVDParameter):
-            The algorithm parameters. ``param.lsqr_niter`` controls the number
-            of LSQR iterations for each factor update.
+            The algorithm parameters. ``param.n_iter`` controls both the
+            number of outer iterations and the number of LSQR iterations for
+            each factor update.
             default: DEFAULT_PARAM
 
     Returns:
@@ -201,15 +202,13 @@ def birsvd_fast(data, weight, n_rank, param=DEFAULT_PARAM):
     Y  = np.zeros(shape=(n, n_rank))
     X  = np.zeros(shape=(m, n_rank))
 
-    lsqr_niter = param.lsqr_niter
-
     approx = np.zeros(shape=data.shape)
     error  = []
 
     for i in range(param.n_iter):
         tmp = np.concatenate([dw.T.flatten(), np.zeros(shape=(n * n_rank))])
         Y_all = least_square_low_rank(
-            U, weight, param.r_degree_R * D_V, tmp, lsqr_niter)
+            U, weight, param.r_degree_R * D_V, tmp, param.n_iter)
         Y = Y_all[-1, :]
         Y = Y.reshape(n, n_rank).T
 
@@ -218,7 +217,7 @@ def birsvd_fast(data, weight, n_rank, param=DEFAULT_PARAM):
 
         tmp = np.concatenate([dw.flatten(), np.zeros(shape=(m * n_rank))])
         X_all = least_square_low_rank(
-            V, weight.T, param.r_degree_L * D_U, tmp, lsqr_niter)
+            V, weight.T, param.r_degree_L * D_U, tmp, param.n_iter)
         X = X_all[-1, :]
         X = X.reshape(m, n_rank).T
 

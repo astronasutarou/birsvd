@@ -6,7 +6,6 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "birsvd"
-version = "0.1"
 description = "Bi-Iterative Regularized Singular Value Decomposition for weighted low-rank matrix approximation"
 readme = { file = "README.md", content-type = "text/markdown" }
 license = "MIT"
@@ -22,6 +21,7 @@ dependencies = [
   "scipy",
   "scikit-learn",
 ]
+dynamic = ["version"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Environment :: Console",
@@ -40,6 +40,9 @@ Homepage = "https://github.com/astronasutarou/birsvd"
 
 [tool.setuptools.packages.find]
 include = ["birsvd*"]
+
+[tool.setuptools.dynamic]
+version = { attr = "birsvd.__version__" }
 
 [tool.cibuildwheel]
 build = "cp39-* cp310-* cp311-* cp312-*"

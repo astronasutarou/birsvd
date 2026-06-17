@@ -14,7 +14,6 @@ def test_birsvd_parameter_defaults():
     assert param.r_degree_L == 0.0001
     assert param.r_type_R == "2ndOrderDiff_acc8"
     assert param.r_degree_R == 0.0001
-    assert param.lsqr_niter == 25
 
 
 def test_default_param_matches_default_instance():
@@ -60,7 +59,6 @@ def test_birsvd_parameter_accepts_custom_values():
         r_degree_L=0.2,
         r_type_R="2ndOrderDiff_acc4",
         r_degree_R=0.3,
-        lsqr_niter=5,
     )
 
     assert param.n_iter == 10
@@ -69,7 +67,6 @@ def test_birsvd_parameter_accepts_custom_values():
     assert param.r_degree_L == 0.2
     assert param.r_type_R == "2ndOrderDiff_acc4"
     assert param.r_degree_R == 0.3
-    assert param.lsqr_niter == 5
 
 
 def test_birsvd_parameter_is_frozen():
