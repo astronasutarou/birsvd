@@ -27,7 +27,7 @@ pip install .
 
 ## Package Contents
 
-### `birsvd(data, weight, n_rank, param=DEFAULT_PARAM)`
+### `birsvd_original(data, weight, n_rank, param=DEFAULT_PARAM)`
 
 Computes a weighted low-rank approximation of `data` using the BIRSVD algorithm.
 Solves the normal equations directly via Cholesky / LU decompositions.
@@ -43,10 +43,10 @@ Returns the low-rank approximation matrix of shape `(m, n)`.
 
 ### `birsvd_fast(data, weight, n_rank, param=DEFAULT_PARAM)`
 
-A faster variant of `birsvd` that replaces the direct linear solvers with the
+A faster variant of `birsvd_original` that replaces the direct linear solvers with the
 iterative LSQR algorithm, making it suitable for larger matrices.
 
-Same parameters and return value as `birsvd`.
+Same parameters and return value as `birsvd_original`.
 
 ### `svd_imputation_with_mask(data, mask, n_rank, n_iter, ini_method='total_mean', velocity=0.1)`
 
@@ -66,7 +66,7 @@ Returns `(u, s, v)` — the SVD factors of the imputed matrix.
 
 ### `BIRSVDParameter`
 
-Dataclass for configuring the `birsvd` and `birsvd_fast` algorithms.
+Dataclass for configuring the `birsvd_original` and `birsvd_fast` algorithms.
 
 | Attribute | Default | Description |
 |-----------|---------|-------------|
@@ -83,7 +83,7 @@ Available regularization types: `'TiKh'` (Tikhonov), `'2ndOrderDiff_acc2'`, `'2n
 
 ```python
 import numpy as np
-from birsvd import birsvd, birsvd_fast, svd_imputation_with_mask
+from birsvd import birsvd_original, birsvd_fast, svd_imputation_with_mask
 from birsvd.svd_settings import BIRSVDParameter
 
 # Weighted low-rank approximation
@@ -91,14 +91,14 @@ m, n, r = 100, 80, 5
 data   = np.random.randn(m, n)
 weight = np.random.rand(m, n)   # values in (0, 1]
 
-approx = birsvd(data, weight, n_rank=r)
+approx = birsvd_original(data, weight, n_rank=r)
 
 # Faster variant for larger matrices
 approx_fast = birsvd_fast(data, weight, n_rank=r)
 
 # Custom parameters
 param = BIRSVDParameter(n_iter=50, r_degree_L=1e-3, r_degree_R=1e-3)
-approx = birsvd(data, weight, n_rank=r, param=param)
+approx = birsvd_original(data, weight, n_rank=r, param=param)
 
 # Missing-value imputation
 mask = (np.random.rand(m, n) > 0.2).astype(float)   # 20 % missing
