@@ -1,0 +1,19 @@
+name: Build distributions
+description: Build the source distribution and Linux wheels for upload.
+
+runs:
+  using: composite
+  steps:
+    - name: Install build tools
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install build cibuildwheel
+
+    - name: Build source distribution
+      shell: bash
+      run: python -m build --sdist --outdir build/dist
+
+    - name: Build wheels
+      shell: bash
+      run: python -m cibuildwheel --output-dir build/dist

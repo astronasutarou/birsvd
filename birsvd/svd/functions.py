@@ -2,25 +2,63 @@
 # -*- coding: utf-8  -*-
 import numpy as np
 
+__all__ = [
+    '__legendre_polys',
+    '__get_regularization_matrix'
+]
 
-def __legendre_polys(n_poly, x):
+
+def __legendre_polys(n_rank, x):
+    ''' Legendre polynomials for polynomial initialization.
+
+    Arguments:
+        n_rank (int):
+            The number of polynomial basis vectors to return. The returned
+            basis contains Legendre polynomials from degree 0 to
+            ``n_rank - 1``.
+        x (ndarray):
+            The input vector, where the Legendre polynomials are evaluated.
+            The shape should be (n_data,).
+
+    Returns:
+        ndarray:
+            The Legendre polynomial basis with shape (n_data, n_rank).
+    '''
     if x.ndim != 1:
         raise ValueError('"x" should be a vector.')
 
     n_data = x.size
-    y = np.zeros(shape=(n_data, n_poly + 1))
+    y = np.zeros(shape=(n_data, n_rank + 1))
 
     y[:, 0] = np.ones(shape=(n_data,))
     y[:, 1] = x
 
-    for i in range(1, n_poly):
-        tmp = (2 * i - 1) * x * y[:, i] - (i - 1) * y[:, i - 1]
-        y[:, i + 1] = tmp / i
+    for i in range(1, n_rank):
+        tmp = (2 * i + 1) * x * y[:, i] - i * y[:, i - 1]
+        y[:, i + 1] = tmp / (i + 1)
 
-    return y[:, 0:n_poly]
+    return y[:, 0:n_rank]
 
 
 def __get_regularization_matrix(n, r_type):
+    ''' Create a regularization matrix.
+
+    Arguments:
+        n (int):
+            The size of the square regularization matrix.
+        r_type (str):
+            The type of regularization matrix. Available values are:
+            'TiKh', '2ndOrderDiff_acc2', '2ndOrderDiff_acc4',
+            '2ndOrderDiff_acc6', and '2ndOrderDiff_acc8'.
+
+    Returns:
+        ndarray:
+            The regularization matrix with shape (n, n).
+
+    Raises:
+        ValueError:
+            If an unsupported regularization type is assigned.
+    '''
     if r_type == 'TiKh':
         D = np.eye(n)
     elif r_type == '2ndOrderDiff_acc2':
@@ -45,8 +83,8 @@ def __get_regularization_matrix(n, r_type):
           + np.diag(   (3./2)  * np.ones(shape=(n - 1,)),  1) \
           + np.diag((-49./18)  * np.ones(shape=(n - 0,)),  0) \
           + np.diag(   (3./2)  * np.ones(shape=(n - 1,)), -1) \
-          + np.diag(  (3./20)  * np.ones(shape=(n - 2,)), -2) \
-          + np.diag( (-1./90)  * np.ones(shape=(n - 3,)), -3)
+          + np.diag( (-3./20)  * np.ones(shape=(n - 2,)), -2) \
+          + np.diag(  (1./90)  * np.ones(shape=(n - 3,)), -3)
         D[0, 0:4] = (-49./18, 3, -3./10, 1./45)
         D[1, 0:5] = (3./2, -49./18, 3./2, -3./10, 1./45)
         D[2, 0:6] = (-3./20, 3./2, -49./18, 3./2, -3./20, 1./45)
