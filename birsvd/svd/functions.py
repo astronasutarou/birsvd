@@ -9,6 +9,20 @@ __all__ = [
 
 
 def __legendre_polys(n_poly, x):
+    ''' Legendre polynomials up to the n-th order at x.
+
+    Arguments:
+        n_poly (int):
+            The maximum order of the Legendre polynomials.
+        x (ndarray):
+            The input vector, where the Legendre polynomials are evaluated.
+            The shape should be (n_data,).
+
+    Returns:
+        ndarray:
+            The Legendre polynomials up to the n-th order at x.
+            The shape is (n_data, n_poly + 1).
+    '''
     if x.ndim != 1:
         raise ValueError('"x" should be a vector.')
 
