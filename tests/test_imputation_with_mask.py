@@ -75,7 +75,7 @@ def test_imputation_with_mask_initial_fill_methods(
     ini_method,
     expected,
 ):
-    module = importlib.import_module("birsvd.svd.imputation_with_mask")
+    module = importlib.import_module("birsvd.imputation_with_mask")
     captured = []
 
     def fake_randomized_svd(matrix, n_rank):
@@ -106,7 +106,7 @@ def test_imputation_with_mask_initial_fill_methods(
 
 
 def test_imputation_with_mask_updates_only_missing_entries(monkeypatch):
-    module = importlib.import_module("birsvd.svd.imputation_with_mask")
+    module = importlib.import_module("birsvd.imputation_with_mask")
     captured = []
 
     def fake_randomized_svd(matrix, n_rank):
