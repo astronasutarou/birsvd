@@ -5,9 +5,9 @@ from birsvd.svd.results import SVDResult
 
 
 def test_svd_result_stores_values():
-    u = np.eye(2)
-    s = np.array([2.0, 1.0])
-    v = np.eye(2)
+    u = np.array([[1.0], [2.0], [3.0]])
+    s = np.array([2.0])
+    v = np.array([[4.0], [5.0]])
     error = np.array([0.3, 0.1])
 
     result = SVDResult(U=u, S=s, V=v, error=error)
@@ -16,6 +16,9 @@ def test_svd_result_stores_values():
     assert result.S is s
     assert result.V is v
     assert result.error is error
+    np.testing.assert_allclose(result.A, np.array([[8.0, 10.0],
+                                                   [16.0, 20.0],
+                                                   [24.0, 30.0]]))
 
 
 @pytest.mark.parametrize(

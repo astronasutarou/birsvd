@@ -2,7 +2,7 @@
 # -*- coding: utf-8  -*-
 from .birsvd_original import birsvd_original
 from .birsvd import birsvd
-from .svd.imputation_with_mask import imputation_with_mask
+from .imputation_with_mask import imputation_with_mask
 
 __version__ = '0.1'
 

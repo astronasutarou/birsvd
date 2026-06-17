@@ -3,7 +3,7 @@ import importlib
 import numpy as np
 import pytest
 
-from birsvd.svd.imputation_with_mask import imputation_with_mask
+from birsvd.imputation_with_mask import imputation_with_mask
 
 
 def test_imputation_with_mask_returns_svd_factor_shapes():

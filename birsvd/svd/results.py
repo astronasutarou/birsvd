@@ -50,6 +50,19 @@ class SVDResult:
             raise ValueError('"error" should be a vector.')
 
     @property
+    def rank(self):
+        ''' The target rank of the approximation '''
+        return self.S.size
+
+    @property
     def A(self):
         ''' The low-rank approximation matrix '''
-        return self.U @ np.diag(self.S) @ self.V
+        return self.U @ np.diag(self.S) @ self.V.T
+
+    def residual(self, X):
+        ''' The residual matrix of the approximation '''
+        return X - self.A
+
+    def loss(self, X, func=lambda x: np.sum(x ** 2)):
+        ''' The loss value of the approximation '''
+        return func(self.residual(X))

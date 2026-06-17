@@ -6,6 +6,7 @@ import scipy as sci
 
 from .svd.parameter import BIRSVDParameter
 from .svd.functions import __legendre_polys, __get_regularization_matrix
+from .svd.results import SVDResult
 
 DEFAULT_PARAM = BIRSVDParameter()
 
@@ -29,8 +30,8 @@ def birsvd_original(data, weight, n_rank, param=DEFAULT_PARAM):
             default: DEFAULT_PARAM
 
     Returns:
-        ndarray:
-            The weighted low-rank approximation matrix with shape (m, n).
+        SVDResult:
+            The SVD factors and per-iteration weighted errors.
 
     Raises:
         ValueError:
@@ -71,8 +72,9 @@ def birsvd_original(data, weight, n_rank, param=DEFAULT_PARAM):
         U = sci.linalg.orth(data[:, 0:n_rank])
 
     dw = data * weight
-    approx = np.zeros(shape=data.shape)
     error = []
+    S = np.zeros(shape=(n_rank,))
+    V = np.zeros(shape=(n, n_rank))
 
     for i in range(param.n_iter):
         R = (U.T.dot(dw)).T.flatten()
@@ -105,4 +107,4 @@ def birsvd_original(data, weight, n_rank, param=DEFAULT_PARAM):
 
         error.append(err)
 
-    return approx
+    return SVDResult(U=U, S=S, V=V, error=np.array(error))
