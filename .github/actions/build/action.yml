@@ -25,4 +25,7 @@ runs:
     - name: Check import
       shell: bash
       working-directory: /tmp
-      run: python -c "import birsvd; print(birsvd.__file__)"
+      run: |
+        ls -a
+        pwd
+        python -c "import birsvd; print(birsvd.__file__)"
