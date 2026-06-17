@@ -3,6 +3,10 @@
 from sklearn.utils.extmath import randomized_svd
 import numpy as np
 
+__all__ = [
+    'svd_imputation_with_mask'
+]
+
 
 def svd_imputation_with_mask(
         data, mask, n_rank, n_iter,

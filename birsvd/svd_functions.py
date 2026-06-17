@@ -2,6 +2,11 @@
 # -*- coding: utf-8  -*-
 import numpy as np
 
+__all__ = [
+    '__legendre_polys',
+    '__get_regularization_matrix'
+]
+
 
 def __legendre_polys(n_poly, x):
     if x.ndim != 1:

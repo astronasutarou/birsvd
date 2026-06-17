@@ -2,7 +2,7 @@
 # -*- coding: utf-8  -*-
 from sklearn.utils.extmath import randomized_svd
 from birsvd.svd_settings import BIRSVDParameter
-from birsvd.svd_functions import __get_regularization_matrix
+from birsvd.svd_functions import __legendre_polys, __get_regularization_matrix
 import numpy as np
 import scipy as sci
 
