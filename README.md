@@ -1,3 +1,7 @@
+[![Build](https://github.com/astronasutarou/birsvd/actions/workflows/build.yml/badge.svg)](https://github.com/astronasutarou/birsvd/actions/workflows/build.yml)
+[![Unit test](https://github.com/astronasutarou/birsvd/actions/workflows/unittest.yml/badge.svg)](https://github.com/astronasutarou/birsvd/actions/workflows/unittest.yml)
+[![CodeQL](https://github.com/astronasutarou/birsvd/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/astronasutarou/birsvd/actions/workflows/github-code-scanning/codeql)
+
 # BIRSVD
 
 A Python implementation of the **Bi-Iterative Regularized Singular Value Decomposition (BIRSVD)** algorithm for weighted low-rank matrix approximation, based on the work of Das & Neumaier (2011).
