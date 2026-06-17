@@ -39,7 +39,7 @@ classifiers = [
 Homepage = "https://github.com/astronasutarou/birsvd"
 
 [tool.setuptools]
-packages = []
+packages = ["birsvd"]
 py-modules = []
 
 [tool.cibuildwheel]
