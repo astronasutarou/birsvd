@@ -20,9 +20,10 @@ runs:
 
     - name: Check installed pakcages
       shell: bash
-      run: python -m pip list
+      run: |
+        python -m pip list -v
 
     - name: Check import
       shell: bash
       working-directory: /tmp
-      run: python -v -c "import birsvd; print(birsvd.__file__)"
+      run: python -c "import birsvd; print(birsvd.__file__)"
