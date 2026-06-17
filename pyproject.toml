@@ -38,8 +38,8 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/astronasutarou/birsvd"
 
-[tool.setuptools]
-packages = ["birsvd"]
+[tool.setuptools.packages.find]
+include = ["birsvd*"]
 
 [tool.cibuildwheel]
 build = "cp39-* cp310-* cp311-* cp312-*"
