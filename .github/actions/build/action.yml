@@ -22,7 +22,7 @@ runs:
       shell: bash
       run: |
         python -m pip list -v
-        ls -R /opt/hostedtoolcache/Python/3.*/x64/lib/python3.*/site-packages
+        ls -R /opt/hostedtoolcache/Python/3.*/x64/lib/python3.*/site-packages/birsvd
 
     - name: Check import
       shell: bash
