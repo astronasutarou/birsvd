@@ -11,10 +11,37 @@ DEFAULT_PARAM = BIRSVDParameter()
 
 
 def birsvd(data, weight, n_rank, param=DEFAULT_PARAM):
+    ''' Compute a weighted low-rank approximation with BIRSVD.
+
+    This implementation alternately solves for the right and left low-rank
+    factors using direct dense linear algebra.
+
+    Arguments:
+        data (ndarray):
+            The input data matrix. The shape should be (m, n).
+        weight (ndarray):
+            The non-negative weight matrix. The shape should match ``data``.
+        n_rank (int):
+            The target rank of the approximation. The value should be between
+            1 and ``min(data.shape)``.
+        param (BIRSVDParameter):
+            The algorithm parameters.
+            default: DEFAULT_PARAM
+
+    Returns:
+        ndarray:
+            The weighted low-rank approximation matrix with shape (m, n).
+
+    Raises:
+        ValueError:
+            If ``data`` and ``weight`` have different shapes.
+    '''
     if data.shape != weight.shape:
-        raise ValueError('Shapes of "data" and "mask" should be the same.')
+        raise ValueError('Shapes of "data" and "weight" should be the same.')
 
     m, n = data.shape
+    if n_rank < 1 or n_rank > min(m, n):
+        raise ValueError('"n_rank" should be between 1 and min(data.shape).')
 
     # get regularization matrices
     D_U = __get_regularization_matrix(m, param.r_type_L)
@@ -26,6 +53,8 @@ def birsvd(data, weight, n_rank, param=DEFAULT_PARAM):
         iDV[r::n_rank, r::n_rank] = D_V
     iDU = param.r_degree_L * iDU
     iDV = param.r_degree_R * iDV
+    iDU = iDU.T.dot(iDU)
+    iDV = iDV.T.dot(iDV)
 
 
     # initialize
@@ -70,15 +99,10 @@ def birsvd(data, weight, n_rank, param=DEFAULT_PARAM):
 
         U, x = np.linalg.qr(X.T, mode='reduced')
 
-        this = U.dot(np.diag(S).dot(V.T))
+        approx = U.dot(np.diag(S).dot(V.T))
 
-        err  = np.linalg.norm((data - this) * weight)
-        errn = np.linalg.norm((data + this) * weight)
-        if err > errn:
-            this, err = -this, errn
+        err  = np.linalg.norm((data - approx) * weight)
 
-        tol = np.linalg.norm((approx - this))
-        approx = this
         error.append(err)
 
     return approx

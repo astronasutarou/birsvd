@@ -11,51 +11,94 @@ DEFAULT_PARAM = BIRSVDParameter()
 
 
 def __A_x(x, U, W, D):
+    ''' Apply the LSQR forward operator.
+
+    Arguments:
+        x (ndarray):
+            The vectorized right low-rank factor.
+        U (ndarray):
+            The left low-rank factor with shape (m, r).
+        W (ndarray):
+            The weight matrix with shape (m, n).
+        D (ndarray):
+            The regularization matrix with shape (n, n).
+
+    Returns:
+        ndarray:
+            The concatenated data-fit and regularization components.
+    '''
     m, n = W.shape
     r = U.shape[1]
 
     x_r = x.reshape((n, r)).T
     b_u = W * U.dot(x_r)
-    b_l = np.dot(x_r, D)
+    b_l = np.dot(x_r, D.T)
 
     return np.concatenate(
         [b_u.T.flatten(), b_l.T.flatten()], axis=0)
 
 
 def __Ap_x(x, U, W, D):
+    ''' Apply the LSQR adjoint operator.
+
+    Arguments:
+        x (ndarray):
+            The concatenated data-fit and regularization vector.
+        U (ndarray):
+            The left low-rank factor with shape (m, r).
+        W (ndarray):
+            The weight matrix with shape (m, n).
+        D (ndarray):
+            The regularization matrix with shape (n, n).
+
+    Returns:
+        ndarray:
+            The vectorized adjoint product.
+    '''
     m, n = W.shape
     r = U.shape[1]
 
     b_l = U.T.dot((W.T.flatten() * x[0:n * m]).reshape(n, m).T)
     x_r = x[n * m:].reshape((n, r))
-    b_r = np.dot(D, x_r)
+    b_r = np.dot(D.T, x_r)
 
-    return b_l.T.flatten() + b_r.T.flatten()
+    return b_l.T.flatten() + b_r.flatten()
 
 
 def least_square_low_rank(
         U, W, D, b, n_iter,
         A=__A_x, Ap=__Ap_x, x_init=None):
-    '''
-    SYNOPSIS:
+    ''' Solve a low-rank weighted least-squares problem with LSQR.
 
-    solves the least squares problem  min || Ax-b || that arises in the
-    "weighted low rank approximation with weighted data" problem for the
-    vector x via the LSQR algorithm of Saunders and Paige.  numiter is
-    the number of iterations to use. This implementation uses the operators
-    A and A' as black boxes. Post-multipication of vectors with A
-    or A' is acomplished by using the function handle.
+    This solves the least-squares problem ``min || A x - b ||`` that arises in
+    weighted low-rank approximation. The forward and adjoint operators are
+    supplied as function handles.
 
-    Input parameters:
+    Arguments:
+        U (ndarray):
+            The left low-rank factor with shape (m, r).
+        W (ndarray):
+            The weight matrix with shape (m, n).
+        D (ndarray):
+            The regularization matrix.
+        b (ndarray):
+            The right-hand-side vector.
+        n_iter (int):
+            The number of LSQR iterations.
+        A (callable):
+            The forward operator.
+            default: __A_x
+        Ap (callable):
+            The adjoint operator.
+            default: __Ap_x
+        x_init (ndarray):
+            The optional initial solution vector.
+            default: None
 
-    U       the left low rank approximants
-    W       the weight matrix
-    D       the matrix for regularization
-    b       the vector on right hand side
-    n_iter    the number of iterations
-    A       function handle for post multipication Ax
-    A_prime   function handle for post multipication A*x
-    x0  first initial guess (optional argument, default set to 0)
+    Returns:
+        ndarray:
+            The solution estimate at each LSQR iteration. The shape is
+            (n_iter, n * r).
     '''
 
     if x_init is not None:
@@ -102,13 +145,40 @@ def least_square_low_rank(
 
 
 def birsvd_fast(data, weight, n_rank, param=DEFAULT_PARAM):
-    '''
+    ''' Compute a weighted low-rank approximation with iterative LSQR solves.
+
+    This is a faster variant of ``birsvd`` for larger matrices. It alternately
+    solves for the right and left low-rank factors using the matrix-free LSQR
+    helper ``least_square_low_rank``.
+
+    Arguments:
+        data (ndarray):
+            The input data matrix. The shape should be (m, n).
+        weight (ndarray):
+            The non-negative weight matrix. The shape should match ``data``.
+        n_rank (int):
+            The target rank of the approximation. The value should be between
+            1 and ``min(data.shape)``.
+        param (BIRSVDParameter):
+            The algorithm parameters. ``param.lsqr_niter`` controls the number
+            of LSQR iterations for each factor update.
+            default: DEFAULT_PARAM
+
+    Returns:
+        ndarray:
+            The weighted low-rank approximation matrix with shape (m, n).
+
+    Raises:
+        ValueError:
+            If ``data`` and ``weight`` have different shapes.
     '''
     if data.shape != weight.shape:
         raise ValueError(
             'the shape of "data" is not matched to that of "weight".')
 
     m, n = data.shape
+    if n_rank < 1 or n_rank > min(m, n):
+        raise ValueError('"n_rank" should be between 1 and min(data.shape).')
 
     D_U = __get_regularization_matrix(m, param.r_type_L)
     D_V = __get_regularization_matrix(n, param.r_type_R)
@@ -154,15 +224,10 @@ def birsvd_fast(data, weight, n_rank, param=DEFAULT_PARAM):
 
         U, x = np.linalg.qr(X.T, mode='reduced')
 
-        this = U.dot(np.diag(S).dot(V.T))
+        approx = U.dot(np.diag(S).dot(V.T))
 
-        err  = np.linalg.norm((data - this) * weight)
-        errn = np.linalg.norm((data + this) * weight)
-        if err > errn:
-            this, err = -this, errn
+        err  = np.linalg.norm((data - approx) * weight)
 
-        tol = np.linalg.norm((approx - this))
-        approx = this
         error.append(err)
 
     return approx
