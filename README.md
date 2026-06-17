@@ -4,13 +4,13 @@ A Python implementation of the **Bi-Iterative Regularized Singular Value Decompo
 
 ## Installation
 
-Install via the GitHub repository.
+Install via the GitHub repository:
 
 ```bash
 pip install git+https://github.com/astronasutarou/birsvd.git
 ```
 
-Or install from source:
+Or download the source from the repository:
 
 ```bash
 git clone https://github.com/astronasutarou/birsvd
@@ -20,10 +20,10 @@ pip install .
 
 ### Requirements
 
-- Python 3.7+
-- numpy
-- scipy
-- scikit-learn
+- Python 3.9+
+- numpy 2.2+
+- scipy 1.16+
+- scikit-learn 1.9+
 
 ## Package Contents
 
