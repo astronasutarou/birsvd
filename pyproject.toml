@@ -40,7 +40,6 @@ Homepage = "https://github.com/astronasutarou/birsvd"
 
 [tool.setuptools]
 packages = ["birsvd"]
-py-modules = []
 
 [tool.cibuildwheel]
 build = "cp39-* cp310-* cp311-* cp312-*"
