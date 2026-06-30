@@ -2,7 +2,7 @@ from dataclasses import FrozenInstanceError
 
 import pytest
 
-from birsvd.svd.parameter import BIRSVDParameter, DEFAULT_PARAM
+from birsvd.utils.parameter import BIRSVDParameter, DEFAULT_PARAM
 
 
 def test_birsvd_parameter_defaults():

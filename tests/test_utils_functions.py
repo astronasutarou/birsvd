@@ -1,7 +1,8 @@
 import numpy as np
 import pytest
 
-from birsvd.svd.functions import __get_regularization_matrix, __legendre_polys
+from birsvd.utils.functions import __get_regularization_matrix
+from birsvd.utils.functions import __legendre_polys
 
 
 def test_legendre_polys_returns_expected_values():

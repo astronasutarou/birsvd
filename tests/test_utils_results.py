@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from birsvd.svd.results import SVDResult
+from birsvd.utils.results import SVDResult
 
 
 def test_svd_result_stores_values():

@@ -3,8 +3,8 @@ import pytest
 
 from birsvd.birsvd_original import birsvd_original
 from birsvd.birsvd import birsvd
-from birsvd.svd.parameter import BIRSVDParameter
-from birsvd.svd.results import SVDResult
+from birsvd.utils.parameter import BIRSVDParameter
+from birsvd.utils.results import SVDResult
 
 
 @pytest.mark.parametrize("func", [birsvd_original, birsvd])

@@ -4,9 +4,9 @@ from sklearn.utils.extmath import randomized_svd
 import numpy as np
 import scipy as sci
 
-from .svd.parameter import BIRSVDParameter
-from .svd.functions import __legendre_polys, __get_regularization_matrix
-from .svd.results import SVDResult
+from .utils.parameter import BIRSVDParameter
+from .utils.functions import __legendre_polys, __get_regularization_matrix
+from .utils.results import SVDResult
 
 DEFAULT_PARAM = BIRSVDParameter()
 

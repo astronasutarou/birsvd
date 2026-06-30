@@ -16,9 +16,9 @@ def test_imputation_with_mask_returns_svd_factor_shapes():
     )
     mask = np.array(
         [
-            [1.0, 0.0, 1.0],
-            [1.0, 1.0, 0.0],
-            [0.0, 1.0, 1.0],
+            [0.0, 1.0, 0.0],
+            [0.0, 0.0, 1.0],
+            [1.0, 0.0, 0.0],
         ]
     )
 
@@ -95,8 +95,8 @@ def test_imputation_with_mask_initial_fill_methods(
     )
     mask = np.array(
         [
-            [1.0, 0.0, 1.0],
-            [1.0, 1.0, 0.0],
+            [0.0, 1.0, 0.0],
+            [0.0, 0.0, 1.0],
         ]
     )
 
@@ -119,7 +119,7 @@ def test_imputation_with_mask_updates_only_missing_entries(monkeypatch):
 
     monkeypatch.setattr(module, "randomized_svd", fake_randomized_svd)
     data = np.array([[1.0, 100.0], [3.0, 4.0]])
-    mask = np.array([[1.0, 0.0], [1.0, 1.0]])
+    mask = np.array([[0.0, 1.0], [0.0, 0.0]])
 
     imputation_with_mask(
         data,
