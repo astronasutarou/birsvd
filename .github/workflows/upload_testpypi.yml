@@ -32,7 +32,7 @@ jobs:
       - name: Upload to TestPyPI
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USER }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_LOGIN }}
+          TWINE_PASSWORD: ${{ secrets.TESTPYPI_LOGIN }}
         run: |
           python -m twine upload \
             --skip-existing \
